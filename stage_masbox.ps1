@@ -14,7 +14,7 @@ function connection_check {
         Write-Output "Installing Chocolatey and VM tools"
         bootstrap_vm(0)
         Write-Output "Installing Python 3 PIP and Python 3 Modules"
-        install_tools(1)
+        bootstrap_vm(1)
     }
 }
 
