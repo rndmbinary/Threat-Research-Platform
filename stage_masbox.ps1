@@ -12,9 +12,9 @@ function connection_check {
     if ($results -eq "True") {
         Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
         Write-Output "Installing Chocolatey and VM tools"
-        bootstrap_vm(1)
+        bootstrap_vm(0)
         Write-Output "Installing Python 3 PIP and Python 3 Modules"
-        bootstrap_vm(2)
+        install_tools(1)
     }
 }
 
@@ -52,14 +52,14 @@ function install_tools($mode) {
         'pdfminer.six',
         'scapy'
     )
-    If ($mode -eq 1) {
+    If ($mode -eq 0) {
         ForEach ($tool in $choco_package) {
             iex "choco install -y $tool"
         }
         $userenv = [System.Environment]::GetEnvironmentVariable("PATH", "User");
-        [System.Environment]::SetEnviornmentVariable("PATH", $userenv + ";C:\ProgramData\chocolatey\bin", "User")
-    } elseif ($mode -eq 2) {
-        ForEach ($tool in $piIp_package) {
+        [System.Environment]::SetEnvironmentVariable("PATH", $userenv + ";C:\ProgramData\chocolatey\bin", "User")
+    } elseif ($mode -eq 1) {
+        ForEach ($tool in $pip_package) {
             iex "pip3 install $tool"
         }
     }
