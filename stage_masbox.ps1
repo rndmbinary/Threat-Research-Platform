@@ -5,7 +5,7 @@
 .AUTHOR
     TYRON HOWARD
 .VERSION
-    0.9 (9.19.2019)
+    1.0 (9.19.2019)
 #>
 function connection_check {
     $results = Test-NetConnection www.google.com -port 443 | % {$_.TcpTestSucceeded}
