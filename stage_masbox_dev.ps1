@@ -6,14 +6,13 @@
 .AUTHOR
     TYRON HOWARD
 .VERSION
-    1.0 (9.19.2019)
+    2.0 (9.20.2019)
 #>
 
 function main {
     try {
-        elevate_script
         disable_defender
-        conection_check
+        connection_check
         bootstrap_vm(0)
         bootstrap_vm(1)
         stage_desktop
@@ -23,15 +22,11 @@ function main {
 
 }
 
-function elevate_script {
-    Start-Process "Powershell Set-ExecutionPolicy Bypass -Scope Process -Force;$env:USERPROFILE\Desktop\stage_masbox.ps1" -Verb RunAs 
-}
-
 function disable_defender {
     $results = Get-MpPreference | % {$_.Name -eq "DisableRealtimeMonitoring"}
     if ($results = "False") {
         Write-Host "Disabling Windows Defender"
-        Set-MpPreference -DisabledRealtimeMonitoring $True
+        Set-MpPreference -DisableRealtimeMonitoring $True
     }
 }
 
@@ -96,11 +91,11 @@ function install_tools($mode) {
 
 function stage_desktop {
     $shell = New-Object -ComObject ("WScript.Shell")
-    New-Item -Path $env:USERPROFILE + "\Desktop\Tools" -ItemType "Directory"
+    New-Item -Path "$env:USERPROFILE\Desktop\Tools" -ItemType "Directory"
     $tools = Get-ChildItem "C:\ProgramData\chocolatey\bin" | % {%_.Name}
 
     ForEach ($tool in $tools) {
-        $shortcut_location = $shell.CreateShortcut($env:USERPROFILE + "\Desktop\Tools\$tool" + ".lnk");
+        $shortcut_location = $shell.CreateShortcut("$env:USERPROFILE\Desktop\Tools\$tool" + ".lnk");
         $shortcut_location.TargetPath="$tool";
         $shortcut_location.WorkingDirectory = "C:\ProgramData\chocolatey\bin";
         $shortcut_location.WindowStyle = 1;
