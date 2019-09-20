@@ -15,11 +15,11 @@ function main {
         connection_check
         bootstrap_vm(0)
         bootstrap_vm(1)
+        bootstrap_vm(2)
         stage_desktop
     } catch [System.SystemException] {
         "One of the functions did not complete execution successfully."
     }
-
 }
 
 function disable_defender {
@@ -57,12 +57,14 @@ function install_tools($mode) {
         'wireshark',
         'pebear',
         'processhacker',
+        'resourcehacker'
         'vscode',
         '7zip.install',
         'yara',
         'ida-free',
         'fiddler',
         'python3',
+        'python2',
         'sysinternals',
         'git',
         'exiftool'
@@ -72,6 +74,7 @@ function install_tools($mode) {
         'oletools',
         'pdfminer.six',
         'scapy'
+        '-U https://github.com/decalage2/ViperMonkey/archive/master.zip' #ViperMonkey
     )
     If ($mode -eq 0) {
         Write-Output "Installing Chocolatey and VM tools"
@@ -85,6 +88,15 @@ function install_tools($mode) {
         ForEach ($tool in $pip_package) {
             iex "pip3 install $tool"
         }
+    } elseif ($mode -eq 2) {
+        New-Item -Path "$env:SystemRoot\Ubuntu" -ItemType "Directory"
+        iwr -Uri https://aka.ms/wsl-ubuntu-1804 -OutFile "$env:SystemRoot\Ubuntu.appx" -UseBasicParsing
+        Rename-Item "$env:SystemRoot\Ubuntu.appx" "$env:SystemRoot\Ubuntu.zip"
+        Expand-Archive "$env:SystemRoot\Ubuntu.zip" "$env:SystemRoot\Ubuntu"
+        Start-Process "$env:SystemRoot\ubuntu1804.exe"
+        $userenv = [System.Environment]::GetEnvironmentVariable("Path", "User")
+        [System.Environment]::SetEnvironmentVariable("PATH", $userenv + ";$env:SystemRoot\Ubuntu", "User")
+        # Remove-Item "$env:SystemRoot\Ubuntu.zip"
     }
     return
 }
