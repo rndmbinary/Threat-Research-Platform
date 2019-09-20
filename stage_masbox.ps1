@@ -111,7 +111,7 @@ function install_tools($mode) {
 function stage_desktop {
     $shell = New-Object -ComObject ("WScript.Shell")
     New-Item -Path "$env:USERPROFILE\Desktop\Tools" -ItemType "Directory"
-    $tools = Get-ChildItem "C:\ProgramData\chocolatey\bin" | % {%_.Name}
+    $tools = Get-ChildItem "C:\ProgramData\chocolatey\bin" | % {$_.Name}
 
     ForEach ($tool in $tools) {
         $shortcut_location = $shell.CreateShortcut("$env:USERPROFILE\Desktop\Tools\$tool" + ".lnk");
