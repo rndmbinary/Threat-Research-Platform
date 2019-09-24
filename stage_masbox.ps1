@@ -45,7 +45,7 @@ function bootstrap_vm($mode) {
         'https://bootstrap.pypa.io/get-pip.py'
         'https://aka.ms/wsl-ubuntu-1804'
     )
-    if ($mode -eq 0 -or $mode -eq 1) {
+    if ($mode -eq 0) {
         iwr $bootstrap_url[$mode] -UseBasicParsing | iex
     } elseif ($mode -eq 2) {
         New-Item -Path "$env:SystemRoot\Ubuntu" -ItemType "Directory"
