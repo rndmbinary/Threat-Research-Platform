@@ -107,7 +107,7 @@ function install_tools($mode) {
 
         Write-Output "Updating Ubuntu.\n Please use the username and password set during the initial install of Ubuntu"
         $userenv = [System.Environment]::GetEnvironmentVariable("Path", "User")
-        [System.Environment]::SetEnvironmentVariable("PATH", $userenv + ";$env:SystemRoot\Ubuntu", "User")
+        [System.Environment]::SetEnvironmentVariable("PATH", $userenv + ";C:\Windows\Ubuntu", "User")
         Start-Process "ubuntu1804.exe run sudo apt update"
         # Remove-Item "$env:SystemRoot\Ubuntu\Ubuntu.zip"
     }
