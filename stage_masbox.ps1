@@ -103,7 +103,7 @@ function install_tools($mode) {
         Write-Output "Installing Ubuntu.\n Please set a username and password when prompted"
         Rename-Item "$env:SystemRoot\Ubuntu\Ubuntu.appx" "$env:SystemRoot\Ubuntu\Ubuntu.zip"
         Expand-Archive "$env:SystemRoot\Ubuntu.zip" "$env:SystemRoot\Ubuntu"
-        Start-Process "$env:SystemRoot\Ubuntu\ubuntu1804.exe"
+        Start-Process "$env:SystemRoot\Ubuntu\ubuntu1804.exe" -NoNewWindow -Wait
 
         Write-Output "Updating Ubuntu.\n Please use the username and password set during the initial install of Ubuntu"
         $userenv = [System.Environment]::GetEnvironmentVariable("Path", "User")
