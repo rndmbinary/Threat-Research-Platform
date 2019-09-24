@@ -48,7 +48,9 @@ function bootstrap_vm($mode) {
     if ($mode -eq 0) {
         iwr $bootstrap_url[$mode] -UseBasicParsing | iex
     } elseif ($mode -eq 2) {
-        New-Item -Path "$env:SystemRoot\Ubuntu" -ItemType "Directory"
+        if ((Test-Path "$env:SystemRoot\Ubuntu") -eq $true) {
+            New-Item -Path "$env:SystemRoot\Ubuntu" -ItemType "Directory"
+        }
         iwr -Uri $bootstrap_url[$mode] -OutFile "$env:SystemRoot\Ubuntu\Ubuntu.appx" -UseBasicParsing
     }
     install_tools($mode)
