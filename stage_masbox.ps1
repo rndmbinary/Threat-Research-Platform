@@ -101,7 +101,7 @@ function install_tools($mode) {
         }
     } elseif ($mode -eq 2) {
         Write-Output "Installing Ubuntu.\n Please set a username and password when prompted"
-        Rename-Item "$env:SystemRoot\Ubuntu\Ubuntu.appx" "$env:SystemRoot\Ubuntu.zip"
+        Rename-Item "$env:SystemRoot\Ubuntu\Ubuntu.appx" "$env:SystemRoot\Ubuntu\Ubuntu.zip"
         Expand-Archive "$env:SystemRoot\Ubuntu.zip" "$env:SystemRoot\Ubuntu"
         Start-Process "$env:SystemRoot\Ubuntu\ubuntu1804.exe"
 
@@ -109,7 +109,7 @@ function install_tools($mode) {
         $userenv = [System.Environment]::GetEnvironmentVariable("Path", "User")
         [System.Environment]::SetEnvironmentVariable("PATH", $userenv + ";$env:SystemRoot\Ubuntu", "User")
         Start-Process "ubuntu1804.exe run sudo apt update"
-        # Remove-Item "$env:SystemRoot\Ubuntu.zip"
+        # Remove-Item "$env:SystemRoot\Ubuntu\Ubuntu.zip"
     }
 }
 
