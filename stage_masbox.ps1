@@ -99,7 +99,7 @@ function install_tools($mode) {
         }
     } elseif ($mode -eq 2) {
         Write-Output "Installing Ubuntu.\n Please set a username and password when prompted"
-        Rename-Item "$env:SystemRoot\Ubuntu.appx" "$env:SystemRoot\Ubuntu.zip"
+        Rename-Item "$env:SystemRoot\Ubuntu\Ubuntu.appx" "$env:SystemRoot\Ubuntu.zip"
         Expand-Archive "$env:SystemRoot\Ubuntu.zip" "$env:SystemRoot\Ubuntu"
         Start-Process "$env:SystemRoot\Ubuntu\ubuntu1804.exe"
 
