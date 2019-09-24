@@ -48,7 +48,7 @@ function bootstrap_vm($mode) {
     if ($mode -eq 0) {
         iwr $bootstrap_url[$mode] -UseBasicParsing | iex
     } elseif ($mode -eq 2) {
-        if ((Test-Path "$env:SystemRoot\Ubuntu") -eq $true) {
+        if ((Test-Path "$env:SystemRoot\Ubuntu") -eq $false) {
             New-Item -Path "$env:SystemRoot\Ubuntu" -ItemType "Directory"
         }
         iwr -Uri $bootstrap_url[$mode] -OutFile "$env:SystemRoot\Ubuntu\Ubuntu.appx" -UseBasicParsing
