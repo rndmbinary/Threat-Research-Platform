@@ -45,10 +45,12 @@ function bootstrap_vm($mode) {
         'https://bootstrap.pypa.io/get-pip.py'
         'https://aka.ms/wsl-ubuntu-1804'
     )
-    if ($mode -eq 0 -or $mode -eq 1) {
+    if ($mode -eq 0) {
         iwr $bootstrap_url[$mode] -UseBasicParsing | iex
     } elseif ($mode -eq 2) {
-        New-Item -Path "$env:SystemRoot\Ubuntu" -ItemType "Directory"
+        if ((Test-Path "$env:SystemRoot\Ubuntu") -eq $false) {
+            New-Item -Path "$env:SystemRoot\Ubuntu" -ItemType "Directory"
+        }
         iwr -Uri $bootstrap_url[$mode] -OutFile "$env:SystemRoot\Ubuntu\Ubuntu.appx" -UseBasicParsing
     }
     install_tools($mode)
@@ -70,7 +72,6 @@ function install_tools($mode) {
         'ida-free',
         'fiddler',
         'python3',
-        'python2',
         'sysinternals',
         'git',
         'exiftool'
@@ -82,7 +83,7 @@ function install_tools($mode) {
         'scapy',
         '-U https://github.com/decalage2/ViperMonkey/archive/master.zip' #ViperMonkey
     )
-    $manual_package @(
+    $manual_package = @(
         'https://www.procdot.com/download/procdot/binaries/procdot_1_22_57_windows.zip ', #ProcDot
         'https://winitor.com/tools/pestudio/current/A9B8E0FD-AFFC-4829-BE81-8F1AB5BC496A.zip' #PeStudio
     )
@@ -100,15 +101,15 @@ function install_tools($mode) {
         }
     } elseif ($mode -eq 2) {
         Write-Output "Installing Ubuntu.\n Please set a username and password when prompted"
-        Rename-Item "$env:SystemRoot\Ubuntu.appx" "$env:SystemRoot\Ubuntu.zip"
+        Rename-Item "$env:SystemRoot\Ubuntu\Ubuntu.appx" "$env:SystemRoot\Ubuntu\Ubuntu.zip"
         Expand-Archive "$env:SystemRoot\Ubuntu.zip" "$env:SystemRoot\Ubuntu"
-        Start-Process "$env:SystemRoot\Ubuntu\ubuntu1804.exe"
+        Start-Process "$env:SystemRoot\Ubuntu\ubuntu1804.exe" -NoNewWindow -Wait
 
         Write-Output "Updating Ubuntu.\n Please use the username and password set during the initial install of Ubuntu"
         $userenv = [System.Environment]::GetEnvironmentVariable("Path", "User")
-        [System.Environment]::SetEnvironmentVariable("PATH", $userenv + ";$env:SystemRoot\Ubuntu", "User")
-        Start-Process "ubuntu1804.exe run sudo apt update"
-        # Remove-Item "$env:SystemRoot\Ubuntu.zip"
+        [System.Environment]::SetEnvironmentVariable("PATH", $userenv + ";C:\Windows\Ubuntu", "User")
+        Start-Process C:\Windows\Ubuntu\ubuntu1804.exe 'run sudo apt update'
+        # Remove-Item "$env:SystemRoot\Ubuntu\Ubuntu.zip"
     }
 }
 
