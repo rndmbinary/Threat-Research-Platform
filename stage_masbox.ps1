@@ -79,12 +79,12 @@ function install_tools($mode) {
         'requests',
         'oletools',
         'pdfminer.six',
-        'scapy'
+        'scapy',
         '-U https://github.com/decalage2/ViperMonkey/archive/master.zip' #ViperMonkey
     )
     $manual_package @(
-        'https://www.procdot.com/download/procdot/binaries/procdot_1_22_57_windows.zip '
-        'https://winitor.com/tools/pestudio/current/A9B8E0FD-AFFC-4829-BE81-8F1AB5BC496A.zip'
+        'https://www.procdot.com/download/procdot/binaries/procdot_1_22_57_windows.zip ', #ProcDot
+        'https://winitor.com/tools/pestudio/current/A9B8E0FD-AFFC-4829-BE81-8F1AB5BC496A.zip' #PeStudio
     )
     If ($mode -eq 0) {
         Write-Output "Installing Chocolatey and VM tools"
