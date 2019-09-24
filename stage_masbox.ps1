@@ -81,10 +81,13 @@ function install_tools($mode) {
         'pdfminer.six',
         'scapy'
         '-U https://github.com/decalage2/ViperMonkey/archive/master.zip' #ViperMonkey
+<<<<<<< HEAD
     )
     $manual_package @(
         'https://www.procdot.com/download/procdot/binaries/procdot_1_22_57_windows.zip '
         'https://winitor.com/tools/pestudio/current/A9B8E0FD-AFFC-4829-BE81-8F1AB5BC496A.zip'
+=======
+>>>>>>> a99422adcefdf0ebe8ebf16b43519cfa419d2c98
     )
     If ($mode -eq 0) {
         Write-Output "Installing Chocolatey and VM tools"
@@ -103,7 +106,11 @@ function install_tools($mode) {
         Rename-Item "$env:SystemRoot\Ubuntu.appx" "$env:SystemRoot\Ubuntu.zip"
         Expand-Archive "$env:SystemRoot\Ubuntu.zip" "$env:SystemRoot\Ubuntu"
         Start-Process "$env:SystemRoot\Ubuntu\ubuntu1804.exe"
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> a99422adcefdf0ebe8ebf16b43519cfa419d2c98
         Write-Output "Updating Ubuntu.\n Please use the username and password set during the initial install of Ubuntu"
         $userenv = [System.Environment]::GetEnvironmentVariable("Path", "User")
         [System.Environment]::SetEnvironmentVariable("PATH", $userenv + ";$env:SystemRoot\Ubuntu", "User")
