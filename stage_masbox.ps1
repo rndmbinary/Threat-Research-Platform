@@ -70,7 +70,6 @@ function install_tools($mode) {
         'ida-free',
         'fiddler',
         'python3',
-        'python2',
         'sysinternals',
         'git',
         'exiftool'
