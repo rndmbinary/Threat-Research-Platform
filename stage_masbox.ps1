@@ -102,12 +102,12 @@ function install_tools($mode) {
             iex "pip3 install $tool"
         }
     } elseif ($mode -eq 2) {
-        Write-Output "Installing Ubuntu.\n Please set a username and password when prompted"
+        Write-Output "Installing Ubuntu. Please set a username and password when prompted"
         Rename-Item "$env:SystemRoot\Ubuntu\Ubuntu.appx" "$env:SystemRoot\Ubuntu\Ubuntu.zip" -ErrorAction SilentlyContinue
         Expand-Archive "$env:SystemRoot\Ubuntu\Ubuntu.zip" "$env:SystemRoot\Ubuntu" -ErrorAction SilentlyContinue
         Start-Process "$env:SystemRoot\Ubuntu\ubuntu1804.exe" -NoNewWindow -Wait
 
-        Write-Output "Updating Ubuntu.\n Please use the username and password set during the initial install of Ubuntu"
+        Write-Output "Updating Ubuntu. Please use the username and password set during the initial install of Ubuntu"
         $userenv = [System.Environment]::GetEnvironmentVariable("Path", "User")
         [System.Environment]::SetEnvironmentVariable("PATH", $userenv + ";C:\Windows\Ubuntu", "User")
         Start-Process C:\Windows\Ubuntu\ubuntu1804.exe 'run sudo apt update'
