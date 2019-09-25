@@ -45,6 +45,11 @@ function bootstrap_vm($mode) {
         'https://bootstrap.pypa.io/get-pip.py'
         'https://aka.ms/wsl-ubuntu-1804'
     )
+    $bootstrap_clipath = @ {
+        '";C:\ProgramData\chocolatey\bin"'
+        '";C:\Python37\Scripts\;C:\Python37\"'
+        '";C:\Windows\Ubuntu"'
+    }
     if ($mode -eq 0) {
         iwr $bootstrap_url[$mode] -UseBasicParsing | iex
     } elseif ($mode -eq 2) {
@@ -53,6 +58,8 @@ function bootstrap_vm($mode) {
         }
         iwr -Uri $bootstrap_url[$mode] -OutFile "$env:SystemRoot\Ubuntu\Ubuntu.appx" -UseBasicParsing
     }
+    $userenv = $env:Path;
+    $env:Path = $userenv + $bootstrap_clipath[$mode]
     install_tools($mode)
     return
 }
@@ -91,12 +98,12 @@ function install_tools($mode) {
         ForEach ($tool in $choco_package) {
             iex "choco install -y $tool"
         }
-        $userenv = $env:Path;
-        $env:Path = $userenv + ";C:\ProgramData\chocolatey\bin"
+        # $userenv = $env:Path;
+        # $env:Path = $userenv + ";C:\ProgramData\chocolatey\bin"
     } elseif ($mode -eq 1) {
         Write-Output "Installing Python 3 Modules using PIP"
-        $userenv = $env:Path;
-        $env:Path = $userenv + ";C:\Python37\Scripts\;C:\Python37\"
+        # $userenv = $env:Path;
+        # $env:Path = $userenv + ";C:\Python37\Scripts\;C:\Python37\"
         ForEach ($tool in $pip_package) {
             iex "pip3 install $tool"
         }
@@ -107,8 +114,8 @@ function install_tools($mode) {
         Start-Process "$env:SystemRoot\Ubuntu\ubuntu1804.exe" -NoNewWindow -Wait
 
         Write-Host "Updating Ubuntu. Please use the username and password set during the initial install of Ubuntu" -BackgroundColor Yellow
-        $userenv = $env:Path;
-        $env:Path = $userenv + ";C:\Windows\Ubuntu"
+        # $userenv = $env:Path;
+        # $env:Path = $userenv + ";C:\Windows\Ubuntu"
         Start-Process C:\Windows\Ubuntu\ubuntu1804.exe 'run sudo apt update'
         # Remove-Item "$env:SystemRoot\Ubuntu\Ubuntu.zip"
     }
