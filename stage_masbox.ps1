@@ -18,7 +18,7 @@ function main {
         stage_desktop
         bootstrap_vm(2)
     } catch [System.SystemException] {
-        "One of the functions did not complete execution successfully."
+        Write-Host "One of the functions did not complete execution successfully." -BackgroundColor Red
     }
 }
 
@@ -101,12 +101,12 @@ function install_tools($mode) {
             iex "pip3 install $tool"
         }
     } elseif ($mode -eq 2) {
-        Write-Output "Installing Ubuntu. Please set a username and password when prompted"
+        Write-Host "Installing Ubuntu. Please set a username and password when prompted" -BackgroundColor Yellow
         Rename-Item "$env:SystemRoot\Ubuntu\Ubuntu.appx" "$env:SystemRoot\Ubuntu\Ubuntu.zip" -ErrorAction SilentlyContinue
         Expand-Archive "$env:SystemRoot\Ubuntu\Ubuntu.zip" "$env:SystemRoot\Ubuntu" -ErrorAction SilentlyContinue
         Start-Process "$env:SystemRoot\Ubuntu\ubuntu1804.exe" -NoNewWindow -Wait
 
-        Write-Output "Updating Ubuntu. Please use the username and password set during the initial install of Ubuntu"
+        Write-Host "Updating Ubuntu. Please use the username and password set during the initial install of Ubuntu" -BackgroundColor Yellow
         $userenv = $env:Path;
         $env:Path = $userenv + ";C:\Windows\Ubuntu"
         Start-Process C:\Windows\Ubuntu\ubuntu1804.exe 'run sudo apt update'
