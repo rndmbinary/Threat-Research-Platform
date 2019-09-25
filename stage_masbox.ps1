@@ -46,9 +46,9 @@ function bootstrap_vm($mode) {
         'https://aka.ms/wsl-ubuntu-1804'
     )
     $bootstrap_clipath = @ {
-        '";C:\ProgramData\chocolatey\bin"'
+        '";C:\ProgramData\chocolatey\bin\"'
         '";C:\Python37\Scripts\;C:\Python37\"'
-        '";C:\Windows\Ubuntu"'
+        '";C:\Windows\Ubuntu\"'
     }
     if ($mode -eq 0) {
         iwr $bootstrap_url[$mode] -UseBasicParsing | iex
