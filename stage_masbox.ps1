@@ -45,11 +45,11 @@ function bootstrap_vm($mode) {
         'https://bootstrap.pypa.io/get-pip.py'
         'https://aka.ms/wsl-ubuntu-1804'
     )
-    $bootstrap_clipath = @ {
+    $bootstrap_clipath = @(
         '";C:\ProgramData\chocolatey\bin\"'
         '";C:\Python37\Scripts\;C:\Python37\"'
         '";C:\Windows\Ubuntu\"'
-    }
+    )
     if ($mode -eq 0) {
         iwr $bootstrap_url[$mode] -UseBasicParsing | iex
     } elseif ($mode -eq 2) {
