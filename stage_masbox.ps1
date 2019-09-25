@@ -96,6 +96,8 @@ function install_tools($mode) {
         [System.Environment]::SetEnvironmentVariable("PATH", $userenv + ";C:\ProgramData\chocolatey\bin", "User")
     } elseif ($mode -eq 1) {
         Write-Output "Installing Python 3 Modules using PIP"
+        $userenv = [System.Environment]::GetEnvironmentVariable("PATH", "User");
+        [System.Environment]::SetEnvironmentVariable("PATH", $userenv + ";C:\Python37\Scripts\;C:\Python37\", "User")
         ForEach ($tool in $pip_package) {
             iex "pip3 install $tool"
         }
