@@ -65,7 +65,6 @@ function install_tools($mode) {
         'wireshark',
         'pebear',
         'processhacker',
-        'resourcehacker'
         'vscode',
         '7zip.install',
         'yara',
