@@ -88,6 +88,7 @@ function install_tools($mode) {
         'oletools',
         'pdfminer.six',
         'scapy',
+        'stoq-framework', #https://github.com/PUNCH-Cyber/stoq
         '-U https://github.com/decalage2/ViperMonkey/archive/master.zip' #ViperMonkey
     );
     $manual_package = @(
