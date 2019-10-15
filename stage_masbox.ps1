@@ -9,6 +9,29 @@
     2.0 (9.20.2019)
 #>
 
+function shortcuts ($tool, $location) {
+    $shell = New-Object -ComObject ("WScript.Shell");
+    New-Item -Path "$env:USERPROFILE\Desktop\Tools" -ItemType "Directory";
+    
+    $shortcut_location = $shell.CreateShortcut("$env:USERPROFILE\Desktop\Tools\$tool" + ".lnk");
+    $shortcut_location.TargetPath="$tool";
+    $shortcut_location.WorkingDirectory = $location;
+    $shortcut_location.WindowStyle = 1;
+    $shortcut_location.IconLocation = "$tool, 0";
+    $shortcut_location.Save();
+
+<#
+    ForEach ($tool in $tools) {
+        $shortcut_location = $shell.CreateShortcut("$env:USERPROFILE\Desktop\Tools\$tool" + ".lnk");
+        $shortcut_location.TargetPath="$tool";
+        $shortcut_location.WorkingDirectory = $location;
+        $shortcut_location.WindowStyle = 1;
+        $shortcut_location.IconLocation = "$tool, 0";
+        $shortcut_location.Save();
+    };
+#>
+}
+
 function main {
     try {
         disable_defender;
@@ -121,18 +144,24 @@ function install_tools($mode) {
 };
 
 function stage_desktop {
-    $shell = New-Object -ComObject ("WScript.Shell");
-    New-Item -Path "$env:USERPROFILE\Desktop\Tools" -ItemType "Directory";
-    $tools = Get-ChildItem "C:\ProgramData\chocolatey\bin" | % {$_.Name};
+    $tools = @(
+        "Get-ChildItem C:\ProgramData\chocolatey\bin | % {$_.Name}" = 'C:\ProgramData\chocolatey\bin'
+        "Get-ChildItem $env:SystemRoot\Ubuntu\ubuntu1804.exe" = "$env:SystemRoot\Ubuntu\"
+    );
 
-    ForEach ($tool in $tools) {
-        $shortcut_location = $shell.CreateShortcut("$env:USERPROFILE\Desktop\Tools\$tool" + ".lnk");
-        $shortcut_location.TargetPath="$tool";
-        $shortcut_location.WorkingDirectory = "C:\ProgramData\chocolatey\bin";
-        $shortcut_location.WindowStyle = 1;
-        $shortcut_location.IconLocation = "$tool, 0";
-        $shortcut_location.Save();
-    };
+    ForEach ($tool, $location in $tools) {
+        shortcuts($tool, $location)
+    }
+
+
+
+
+<#
+    $tools = Get-ChildItem "C:\ProgramData\chocolatey\bin" | % {$_.Name};
+    $location = "C:\ProgramData\chocolatey\bin"
+    $tools = Get-ChildItem "$env:SystemRoot\Ubuntu\ubuntu1804.exe"
+    $location = "$env:SystemRoot\Ubuntu\"
+#>
 };
 
 main;
