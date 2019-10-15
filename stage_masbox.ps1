@@ -96,13 +96,14 @@ function install_tools($mode) {
         'https://www.procdot.com/download/procdot/binaries/procdot_1_22_57_windows.zip ', #ProcDot
         'https://winitor.com/tools/pestudio/current/A9B8E0FD-AFFC-4829-BE81-8F1AB5BC496A.zip' #PeStudio
     );
+    
     If ($mode -eq 0) {
-        Write-Output "Installing Chocolatey and VM tools"
+        Write-Host "Installing Chocolatey and VM tools" -BackgroundColor Red;
         ForEach ($tool in $choco_package) {
             iex "choco install -y $tool"
         };
     } elseif ($mode -eq 1) {
-        Write-Output "Installing Python 3 Modules using PIP"
+        Write-Host "Installing Python 3 Modules using PIP" -BackgroundColor Red;
 
         ForEach ($tool in $pip_package) {
             iex "pip3 install $tool";
