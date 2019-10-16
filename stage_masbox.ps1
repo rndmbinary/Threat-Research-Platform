@@ -56,8 +56,8 @@ function bootstrap_vm($mode) {
     } elseif ($mode -eq 2) {
         if ((Test-Path "$env:SystemRoot\Ubuntu") -eq $false) {
             New-Item -Path "$env:SystemRoot\Ubuntu" -ItemType "Directory";
-        };
-        iwr -Uri $bootstrap_url[$mode] -OutFile "$env:SystemRoot\Ubuntu\Ubuntu.appx" -UseBasicParsing;
+            iwr -Uri $bootstrap_url[$mode] -OutFile "$env:SystemRoot\Ubuntu\Ubuntu.appx" -UseBasicParsing;
+        };  
     };
     $userenv = $env:Path;
     $env:Path = $userenv + $bootstrap_clipath[$mode] +";";
@@ -129,7 +129,7 @@ function stage_desktop {
     
     $tools = @{
         'Get-ChildItem C:\ProgramData\chocolatey\bin | % {$_.Name}' = 'C:\ProgramData\chocolatey\bin'
-        'Get-ChildItem $env:SystemRoot\Ubuntu\ubuntu1804.exe' = '$env:SystemRoot\Ubuntu\'
+        'Get-ChildItem $env:SystemRoot\Ubuntu\ubuntu1804.exe | % {$_.Name}' = '$env:SystemRoot\Ubuntu\'
     };
 
     ForEach ($tool in $tools.Keys) {
