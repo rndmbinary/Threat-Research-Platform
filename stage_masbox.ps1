@@ -4,10 +4,10 @@
     stage_masbox.ps1
 .DISCRIPTION
 .AUTHOR
-    TYRON HOWARD
 .VERSION
-    2.0 (9.20.2019)
+    2.4.2 (10.18.2019)
 #>
+
 
 function main {
     try {
@@ -15,8 +15,8 @@ function main {
         connection_check;
         bootstrap_vm(0);
         bootstrap_vm(1);
-        stage_desktop;
         bootstrap_vm(2);
+        stage_desktop;
     } catch [System.SystemException] {
         Write-Host "One of the functions did not complete execution successfully." -BackgroundColor Red;
     };
@@ -47,9 +47,9 @@ function bootstrap_vm($mode) {
         'https://aka.ms/wsl-ubuntu-1804'
     );
     $bootstrap_clipath = @(
-        ';C:\ProgramData\chocolatey\bin\',
-        ';C:\Python37\Scripts\;C:\Python37\',
-        ';C:\Windows\Ubuntu\'
+        'C:\ProgramData\chocolatey\bin\',
+        'C:\Python37\Scripts\;C:\Python37\',
+        'C:\Windows\Ubuntu\'
     );
     if ($mode -eq 0) {
         iwr $bootstrap_url[$mode] -UseBasicParsing | iex
@@ -60,7 +60,7 @@ function bootstrap_vm($mode) {
         iwr -Uri $bootstrap_url[$mode] -OutFile "$env:SystemRoot\Ubuntu\Ubuntu.appx" -UseBasicParsing;
     };
     $userenv = $env:Path;
-    $env:Path = $userenv + $bootstrap_clipath[$mode];
+    $env:Path = $userenv + $bootstrap_clipath[$mode] +";";
     install_tools($mode)
     return
 };
@@ -76,9 +76,9 @@ function install_tools($mode) {
         'vscode',
         '7zip.install',
         'yara',
-        'ida-free',
+        #'ida-free',
         'fiddler',
-        'python3',
+        'python3 --version=3.7.4',
         'sysinternals',
         'git',
         'exiftool'
@@ -95,13 +95,14 @@ function install_tools($mode) {
         'https://www.procdot.com/download/procdot/binaries/procdot_1_22_57_windows.zip ', #ProcDot
         'https://winitor.com/tools/pestudio/current/A9B8E0FD-AFFC-4829-BE81-8F1AB5BC496A.zip' #PeStudio
     );
+    
     If ($mode -eq 0) {
-        Write-Output "Installing Chocolatey and VM tools"
+        Write-Host "Installing Chocolatey and VM tools" -BackgroundColor Red;
         ForEach ($tool in $choco_package) {
             iex "choco install -y $tool"
         };
     } elseif ($mode -eq 1) {
-        Write-Output "Installing Python 3 Modules using PIP"
+        Write-Host "Installing Python 3 Modules using PIP" -BackgroundColor Red;
 
         ForEach ($tool in $pip_package) {
             iex "pip3 install $tool";
@@ -122,17 +123,44 @@ function install_tools($mode) {
 
 function stage_desktop {
     $shell = New-Object -ComObject ("WScript.Shell");
-    New-Item -Path "$env:USERPROFILE\Desktop\Tools" -ItemType "Directory";
-    $tools = Get-ChildItem "C:\ProgramData\chocolatey\bin" | % {$_.Name};
+    if ((Test-Path "$env:USERPROFILE\Desktop\Tools") -eq $false) {
+        New-Item -Path "$env:USERPROFILE\Desktop\Tools" -ItemType "Directory";
+    };
+    
+    $tools = @{
+        'Get-ChildItem C:\ProgramData\chocolatey\bin | % {$_.Name}' = 'C:\ProgramData\chocolatey\bin'
+        'Get-ChildItem $env:SystemRoot\Ubuntu\ubuntu1804.exe' = '$env:SystemRoot\Ubuntu\'
+    };
 
+    ForEach ($tool in $tools.Keys) {
+        $tool_list = iex $tool
+        ForEach ($x in $tool_list) {
+            $shortcut_location = $shell.CreateShortcut("$env:USERPROFILE\Desktop\Tools\$x" + ".lnk");
+            $shortcut_location.TargetPath="$x";
+            $shortcut_location.WorkingDirectory = $tools[$tool];
+            $shortcut_location.WindowStyle = 1;
+            $shortcut_location.IconLocation = "$x, 0";
+            $shortcut_location.Save();
+        };
+    };
+};
+
+<#
     ForEach ($tool in $tools) {
         $shortcut_location = $shell.CreateShortcut("$env:USERPROFILE\Desktop\Tools\$tool" + ".lnk");
         $shortcut_location.TargetPath="$tool";
-        $shortcut_location.WorkingDirectory = "C:\ProgramData\chocolatey\bin";
+        $shortcut_location.WorkingDirectory = $location;
         $shortcut_location.WindowStyle = 1;
         $shortcut_location.IconLocation = "$tool, 0";
         $shortcut_location.Save();
     };
-};
+#>
+
+<#
+    $tools = Get-ChildItem "C:\ProgramData\chocolatey\bin" | % {$_.Name};
+    $location = "C:\ProgramData\chocolatey\bin"
+    $tools = Get-ChildItem "$env:SystemRoot\Ubuntu\ubuntu1804.exe"
+    $location = "$env:SystemRoot\Ubuntu\"
+#>
 
 main;
