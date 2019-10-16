@@ -5,14 +5,14 @@
 .DISCRIPTION
 .AUTHOR
 .VERSION
-    2.4 (10.18.2019)
+    2.4.2 (10.18.2019)
 #>
 
 
 function main {
     try {
         disable_defender;
-        #connection_check;
+        connection_check;
         bootstrap_vm(0);
         bootstrap_vm(1);
         bootstrap_vm(2);
@@ -122,29 +122,27 @@ function install_tools($mode) {
 };
 
 function stage_desktop {
+    $shell = New-Object -ComObject ("WScript.Shell");
+    if ((Test-Path "$env:USERPROFILE\Desktop\Tools") -eq $false) {
+        New-Item -Path "$env:USERPROFILE\Desktop\Tools" -ItemType "Directory";
+    };
+    
     $tools = @{
         'Get-ChildItem C:\ProgramData\chocolatey\bin | % {$_.Name}' = 'C:\ProgramData\chocolatey\bin'
         'Get-ChildItem $env:SystemRoot\Ubuntu\ubuntu1804.exe' = '$env:SystemRoot\Ubuntu\'
     };
 
     ForEach ($tool in $tools.Keys) {
-        $tool = iex $tool
-        shortcuts($tool, $tools[$tool])
+        $tool_list = iex $tool
+        ForEach ($x in $tool_list) {
+            $shortcut_location = $shell.CreateShortcut("$env:USERPROFILE\Desktop\Tools\$x" + ".lnk");
+            $shortcut_location.TargetPath="$x";
+            $shortcut_location.WorkingDirectory = $tools[$tool];
+            $shortcut_location.WindowStyle = 1;
+            $shortcut_location.IconLocation = "$x, 0";
+            $shortcut_location.Save();
+        };
     };
-};
-
-function shortcuts($tool, $location) {
-    Write-Host "Adding Tools Folder to Desktop" -BackgroundColor Red;
-    $shell = New-Object -ComObject ("WScript.Shell");
-    New-Item -Path "$env:USERPROFILE\Desktop\Tools" -ItemType "Directory";
-    
-    $shortcut_location = $shell.CreateShortcut("$env:USERPROFILE\Desktop\Tools\$tool" + ".lnk");
-    $shortcut_location.TargetPath="$tool";
-    $shortcut_location.WorkingDirectory = $location;
-    $shortcut_location.WindowStyle = 1;
-    $shortcut_location.IconLocation = "$tool, 0";
-    $shortcut_location.Save();
-
 };
 
 <#
