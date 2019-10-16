@@ -128,12 +128,12 @@ function stage_desktop {
     };
 
     ForEach ($tool in $tools.Keys) {
+        $tool = iex $tool
         shortcuts($tool, $tools[$tool])
     }
 
 
 function shortcuts ($tool, $location) {
-    $tool = iex $tool
     $shell = New-Object -ComObject ("WScript.Shell");
     New-Item -Path "$env:USERPROFILE\Desktop\Tools" -ItemType "Directory";
     
