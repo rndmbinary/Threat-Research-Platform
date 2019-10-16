@@ -15,8 +15,8 @@ function main {
         #connection_check;
         bootstrap_vm(0);
         bootstrap_vm(1);
-        stage_desktop;
         bootstrap_vm(2);
+        stage_desktop;
     } catch [System.SystemException] {
         Write-Host "One of the functions did not complete execution successfully." -BackgroundColor Red;
     };
