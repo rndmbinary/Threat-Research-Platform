@@ -130,8 +130,8 @@ function stage_desktop {
     ForEach ($tool in $tools.Keys) {
         $tool = iex $tool
         shortcuts($tool, $tools[$tool])
-    }
-
+    };
+};
 
 function shortcuts($tool, $location) {
     Write-Host "Adding Tools Folder to Desktop" -BackgroundColor Red;
@@ -145,7 +145,7 @@ function shortcuts($tool, $location) {
     $shortcut_location.IconLocation = "$tool, 0";
     $shortcut_location.Save();
 
-}
+};
 
 <#
     ForEach ($tool in $tools) {
@@ -164,6 +164,5 @@ function shortcuts($tool, $location) {
     $tools = Get-ChildItem "$env:SystemRoot\Ubuntu\ubuntu1804.exe"
     $location = "$env:SystemRoot\Ubuntu\"
 #>
-};
 
 main;
