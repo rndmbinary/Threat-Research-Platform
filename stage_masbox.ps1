@@ -133,7 +133,8 @@ function stage_desktop {
     }
 
 
-function shortcuts ($tool, $location) {
+function shortcuts($tool, $location) {
+    Write-Host "Adding Tools Folder to Desktop" -BackgroundColor Red;
     $shell = New-Object -ComObject ("WScript.Shell");
     New-Item -Path "$env:USERPROFILE\Desktop\Tools" -ItemType "Directory";
     
