@@ -4,16 +4,15 @@
     stage_masbox.ps1
 .DISCRIPTION
 .AUTHOR
-    TYRON HOWARD
 .VERSION
-    2.2 (10.15.2019)
+    2.4 (10.18.2019)
 #>
 
 
 function main {
     try {
         disable_defender;
-        connection_check;
+        #connection_check;
         bootstrap_vm(0);
         bootstrap_vm(1);
         stage_desktop;
@@ -48,9 +47,9 @@ function bootstrap_vm($mode) {
         'https://aka.ms/wsl-ubuntu-1804'
     );
     $bootstrap_clipath = @(
-        ';C:\ProgramData\chocolatey\bin\',
-        ';C:\Python37\Scripts\;C:\Python37\',
-        ';C:\Windows\Ubuntu\'
+        'C:\ProgramData\chocolatey\bin\',
+        'C:\Python37\Scripts\;C:\Python37\',
+        'C:\Windows\Ubuntu\'
     );
     if ($mode -eq 0) {
         iwr $bootstrap_url[$mode] -UseBasicParsing | iex
@@ -61,7 +60,7 @@ function bootstrap_vm($mode) {
         iwr -Uri $bootstrap_url[$mode] -OutFile "$env:SystemRoot\Ubuntu\Ubuntu.appx" -UseBasicParsing;
     };
     $userenv = $env:Path;
-    $env:Path = $userenv + $bootstrap_clipath[$mode];
+    $env:Path = $userenv + $bootstrap_clipath[$mode] +";";
     install_tools($mode)
     return
 };
@@ -77,9 +76,9 @@ function install_tools($mode) {
         'vscode',
         '7zip.install',
         'yara',
-        'ida-free',
+        #'ida-free',
         'fiddler',
-        'python3',
+        'python3 --version=3.7.4',
         'sysinternals',
         'git',
         'exiftool'
@@ -123,10 +122,10 @@ function install_tools($mode) {
 };
 
 function stage_desktop {
-    $tools = @(
-        "Get-ChildItem C:\ProgramData\chocolatey\bin | % {$_.Name}" = 'C:\ProgramData\chocolatey\bin'
-        "Get-ChildItem $env:SystemRoot\Ubuntu\ubuntu1804.exe" = "$env:SystemRoot\Ubuntu\"
-    );
+    $tools = @{
+        'Get-ChildItem C:\ProgramData\chocolatey\bin | % {$_.Name}' = 'C:\ProgramData\chocolatey\bin'
+        'Get-ChildItem $env:SystemRoot\Ubuntu\ubuntu1804.exe' = '$env:SystemRoot\Ubuntu\'
+    };
 
     ForEach ($tool in $tools.Keys) {
         shortcuts($tool, $tools[$tool])
