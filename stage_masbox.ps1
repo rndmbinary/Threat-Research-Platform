@@ -49,6 +49,7 @@ function bootstrap_vm($mode) {
     $bootstrap_clipath = @(
         'C:\ProgramData\chocolatey\bin\',
         'C:\Python37\Scripts\;C:\Python37\',
+        'C:\Python27\Scripts\;C:\Python27\',
         'C:\Windows\Ubuntu\'
     );
     if ($mode -eq 0) {
@@ -76,12 +77,14 @@ function install_tools($mode) {
         'vscode',
         '7zip.install',
         'yara',
-        #'ida-free',
+        'ida-free --version=7.0',
         'fiddler',
         'python3 --version=3.7.4',
+        'python2 --version=2.7.17',
         'sysinternals',
         'git',
-        'exiftool'
+        'exiftool',
+        'vt-cli'
     );
     $pip_package = @(
         'requests',
@@ -106,6 +109,7 @@ function install_tools($mode) {
 
         ForEach ($tool in $pip_package) {
             iex "pip3 install $tool";
+            iex "pip2 install $tool";
         };
     } elseif ($mode -eq 2) {
         Write-Host "Installing Ubuntu. Please set a username and password when prompted" -BackgroundColor Red;
