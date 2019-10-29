@@ -53,10 +53,10 @@ function bootstrap_vm($mode) {
         'C:\Python27\Scripts\;C:\Python27\',
         'C:\Windows\Ubuntu\'
     );
-    while ($mode -lt 4) {
-        $userenv = $env:Path;
-        $env:Path = $userenv + $bootstrap_clipath[$mode] +";";
-    }
+    
+    $userenv = $env:Path;
+    $env:Path = $userenv + $bootstrap_clipath[$mode] +";";
+    
     if ($mode -eq 0) {
         iwr $bootstrap_url[$mode] -UseBasicParsing | iex
     } elseif ($mode -eq 3) {
