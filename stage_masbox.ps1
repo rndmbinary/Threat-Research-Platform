@@ -53,6 +53,10 @@ function bootstrap_vm($mode) {
         'C:\Python27\Scripts\;C:\Python27\',
         'C:\Windows\Ubuntu\'
     );
+    if ($mode -eq 0 -or $mode -eq 3) {
+        $userenv = $env:Path;
+        $env:Path = $userenv + $bootstrap_clipath[$mode] +";";
+    }
     if ($mode -eq 0) {
         iwr $bootstrap_url[$mode] -UseBasicParsing | iex
     } elseif ($mode -eq 3) {
@@ -61,8 +65,6 @@ function bootstrap_vm($mode) {
             iwr -Uri $bootstrap_url[$mode] -OutFile "$env:SystemRoot\Ubuntu\Ubuntu.appx" -UseBasicParsing;
         };  
     };
-    $userenv = $env:Path;
-    $env:Path = $userenv + $bootstrap_clipath[$mode] +";";
     install_tools($mode)
     return
 };
