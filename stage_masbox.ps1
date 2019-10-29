@@ -16,6 +16,7 @@ function main {
         bootstrap_vm(0);
         bootstrap_vm(1);
         bootstrap_vm(2);
+        bootstrap_vm(3);
         stage_desktop;
     } catch [System.SystemException] {
         Write-Host "One of the functions did not complete execution successfully." -BackgroundColor Red;
@@ -54,7 +55,7 @@ function bootstrap_vm($mode) {
     );
     if ($mode -eq 0) {
         iwr $bootstrap_url[$mode] -UseBasicParsing | iex
-    } elseif ($mode -eq 2) {
+    } elseif ($mode -eq 3) {
         if ((Test-Path "$env:SystemRoot\Ubuntu") -eq $false) {
             New-Item -Path "$env:SystemRoot\Ubuntu" -ItemType "Directory";
             iwr -Uri $bootstrap_url[$mode] -OutFile "$env:SystemRoot\Ubuntu\Ubuntu.appx" -UseBasicParsing;
@@ -77,7 +78,7 @@ function install_tools($mode) {
         'vscode',
         '7zip.install',
         'yara',
-        'ida-free --version=7.0',
+        'ida-free --version=7.07.0',
         'fiddler',
         'python3 --version=3.7.4',
         'python2 --version=2.7.17',
@@ -94,6 +95,9 @@ function install_tools($mode) {
         'stoq-framework', #https://github.com/PUNCH-Cyber/stoq
         '-U https://github.com/decalage2/ViperMonkey/archive/master.zip' #ViperMonkey
     );
+    $git_package = @{
+        'YarGen' = 'https://github.com/Neo23x0/yarGen.git'
+    };
     $manual_package = @(
         'https://www.procdot.com/download/procdot/binaries/procdot_1_22_57_windows.zip ', #ProcDot
         'https://winitor.com/tools/pestudio/current/A9B8E0FD-AFFC-4829-BE81-8F1AB5BC496A.zip' #PeStudio
@@ -111,7 +115,7 @@ function install_tools($mode) {
             iex "pip3 install $tool";
             iex "pip2 install $tool";
         };
-    } elseif ($mode -eq 2) {
+    } elseif ($mode -eq 3) {
         Write-Host "Installing Ubuntu. Please set a username and password when prompted" -BackgroundColor Red;
         
         Rename-Item "$env:SystemRoot\Ubuntu\Ubuntu.appx" "$env:SystemRoot\Ubuntu\Ubuntu.zip" -ErrorAction SilentlyContinue;
@@ -122,6 +126,10 @@ function install_tools($mode) {
 
         Start-Process C:\Windows\Ubuntu\ubuntu1804.exe 'run sudo apt update';
         # Remove-Item "$env:SystemRoot\Ubuntu\Ubuntu.zip"
+    } elseif ($mode -eq 2) {
+        ForEach ($tool in $git_package.Keys) {
+            iex 'git clone $git_package[$tool] $env:USERPROFILE\Desktop\$tool';
+        };
     };
 };
 
