@@ -25,7 +25,7 @@ function main {
 
 function disable_defender {
     $firewall_status = Get-MpPreference | % {$_.Name -eq "DisableRealtimeMonitoring"};
-    $UAC_status = Get-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin
+    $UAC_status = Get-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin | % {$_.ConsentPromptBehaviorAdmin}
     
     if ($results = "False") {
         Write-Host "Disabling Windows Defender";
