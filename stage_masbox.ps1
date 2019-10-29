@@ -127,8 +127,8 @@ function install_tools($mode) {
         Start-Process C:\Windows\Ubuntu\ubuntu1804.exe 'run sudo apt update';
         # Remove-Item "$env:SystemRoot\Ubuntu\Ubuntu.zip"
     } elseif ($mode -eq 2) {
-        ForEach ($tool in $git_package) {
-            iex "git clone $git_package[$tool] $env:USERPROFILE\Desktop\$tool";
+        ForEach ($tool in $git_package.Keys) {
+            iex 'git clone $git_package[$tool] $env:USERPROFILE\Desktop\$tool';
         };
     };
 };
