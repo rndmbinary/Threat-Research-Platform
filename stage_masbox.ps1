@@ -16,6 +16,7 @@ function main {
         bootstrap_vm(0);
         bootstrap_vm(1);
         bootstrap_vm(2);
+        bootstrap_vm(3);
         stage_desktop;
     } catch [System.SystemException] {
         Write-Host "One of the functions did not complete execution successfully." -BackgroundColor Red;
@@ -77,7 +78,7 @@ function install_tools($mode) {
         'vscode',
         '7zip.install',
         'yara',
-        'ida-free --version=7.0',
+        'ida-free --version=7.07.0',
         'fiddler',
         'python3 --version=3.7.4',
         'python2 --version=2.7.17',
@@ -125,7 +126,7 @@ function install_tools($mode) {
 
         Start-Process C:\Windows\Ubuntu\ubuntu1804.exe 'run sudo apt update';
         # Remove-Item "$env:SystemRoot\Ubuntu\Ubuntu.zip"
-    } elseif ($more -eq 2) {
+    } elseif ($mode -eq 2) {
         ForEach ($tool in $git_package) {
             iex "git clone $tool $env:USERPROFILE\Desktop";
         };
