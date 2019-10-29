@@ -95,9 +95,9 @@ function install_tools($mode) {
         'stoq-framework', #https://github.com/PUNCH-Cyber/stoq
         '-U https://github.com/decalage2/ViperMonkey/archive/master.zip' #ViperMonkey
     );
-    $git_package = @(
-        'https://github.com/Neo23x0/yarGen.git'
-    );
+    $git_package = @{
+        'YarGen' = 'https://github.com/Neo23x0/yarGen.git'
+    };
     $manual_package = @(
         'https://www.procdot.com/download/procdot/binaries/procdot_1_22_57_windows.zip ', #ProcDot
         'https://winitor.com/tools/pestudio/current/A9B8E0FD-AFFC-4829-BE81-8F1AB5BC496A.zip' #PeStudio
@@ -128,7 +128,7 @@ function install_tools($mode) {
         # Remove-Item "$env:SystemRoot\Ubuntu\Ubuntu.zip"
     } elseif ($mode -eq 2) {
         ForEach ($tool in $git_package) {
-            iex "git clone $tool $env:USERPROFILE\Desktop";
+            iex "git clone $git_package[$tool] $env:USERPROFILE\Desktop\$tool";
         };
     };
 };
