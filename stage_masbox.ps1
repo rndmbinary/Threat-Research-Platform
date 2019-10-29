@@ -53,7 +53,7 @@ function bootstrap_vm($mode) {
         'C:\Python27\Scripts\;C:\Python27\',
         'C:\Windows\Ubuntu\'
     );
-    if ($mode -eq 0 -or $mode -eq 3) {
+    while ($mode -lt 4) {
         $userenv = $env:Path;
         $env:Path = $userenv + $bootstrap_clipath[$mode] +";";
     }
