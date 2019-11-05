@@ -28,7 +28,7 @@ function disable_defender {
     $UAC_status = Get-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin | % {$_.ConsentPromptBehaviorAdmin}
     
     if ($results = "False") {
-        Write-Host "Disabling Windows Defender";
+        Write-Host "Disabling Windows Defender and UAC. . .";
         Set-MpPreference -DisableRealtimeMonitoring $True;
     } elseif ($UAC_status -ne 0) {
         Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
@@ -92,12 +92,15 @@ function install_tools($mode) {
         'exiftool',
         'vt-cli'
     );
-    $pip_package = @(
+    $pip3_package = @(
         'requests',
         'oletools',
         'pdfminer.six',
         'scapy',
-        'stoq-framework', #https://github.com/PUNCH-Cyber/stoq
+        'stoq-framework' #https://github.com/PUNCH-Cyber/stoq
+    );
+    $pip2_package = @(
+        'pdfminer'
         '-U https://github.com/decalage2/ViperMonkey/archive/master.zip' #ViperMonkey
     );
     $git_package = @{
@@ -114,10 +117,12 @@ function install_tools($mode) {
             iex "choco install -y $tool"
         };
     } elseif ($mode -eq 1) {
-        Write-Host "Installing Python 3 Modules using PIP" -BackgroundColor Red;
+        Write-Host "Installing Python 3 & 2 Modules using PIP" -BackgroundColor Red;
 
-        ForEach ($tool in $pip_package) {
+        ForEach ($tool in $pip3_package) {
             iex "pip3 install $tool";
+        };
+        ForEach ($tool in $pip2_package) {
             iex "pip2 install $tool";
         };
     } elseif ($mode -eq 3) {
