@@ -76,6 +76,7 @@ function install_tools($mode) {
     $choco_package = @(
         'x64dbg.portable',
         'radare',
+        'cutter',
         'hxd',
         'wireshark',
         'pebear',
