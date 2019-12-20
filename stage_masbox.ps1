@@ -76,6 +76,7 @@ function install_tools($mode) {
     $choco_package = @(
         'x64dbg.portable',
         'radare',
+        'cutter',
         'hxd',
         'wireshark',
         'pebear',
@@ -105,6 +106,7 @@ function install_tools($mode) {
     );
     $git_package = @{
         'YarGen' = 'https://github.com/Neo23x0/yarGen.git'
+        'Binwalk' = 'https://github.com/ReFirmLabs/binwalk.git'
     };
     $manual_package = @(
         'https://www.procdot.com/download/procdot/binaries/procdot_1_22_57_windows.zip ', #ProcDot
