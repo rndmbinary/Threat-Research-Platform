@@ -3,9 +3,14 @@
 .NAME
     stage_masbox.ps1
 .DISCRIPTION
+    Inspired by FireEye's FlareVM, this was created to support security analysts to conduct
+    static, dynamic analysis and reverse enginnering against malicious objects. 
+    Recommend using a Windows VM.
+    Use at your own risk.
 .AUTHOR
+    Tyron Howard
 .VERSION
-    2.4.2 (10.18.2019)
+    2.5 (1.29.2020)
 #>
 
 
@@ -92,6 +97,7 @@ function install_tools($mode) {
         'git',
         'exiftool',
         'vt-cli'
+        'mitmproxy'
     );
     $pip3_package = @(
         'requests',
@@ -168,23 +174,5 @@ function stage_desktop {
         };
     };
 };
-
-<#
-    ForEach ($tool in $tools) {
-        $shortcut_location = $shell.CreateShortcut("$env:USERPROFILE\Desktop\Tools\$tool" + ".lnk");
-        $shortcut_location.TargetPath="$tool";
-        $shortcut_location.WorkingDirectory = $location;
-        $shortcut_location.WindowStyle = 1;
-        $shortcut_location.IconLocation = "$tool, 0";
-        $shortcut_location.Save();
-    };
-#>
-
-<#
-    $tools = Get-ChildItem "C:\ProgramData\chocolatey\bin" | % {$_.Name};
-    $location = "C:\ProgramData\chocolatey\bin"
-    $tools = Get-ChildItem "$env:SystemRoot\Ubuntu\ubuntu1804.exe"
-    $location = "$env:SystemRoot\Ubuntu\"
-#>
 
 main;
