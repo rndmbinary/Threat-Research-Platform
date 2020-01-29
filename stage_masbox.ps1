@@ -92,6 +92,7 @@ function install_tools($mode) {
         'git',
         'exiftool',
         'vt-cli'
+        'mitmproxy'
     );
     $pip3_package = @(
         'requests',
@@ -168,23 +169,5 @@ function stage_desktop {
         };
     };
 };
-
-<#
-    ForEach ($tool in $tools) {
-        $shortcut_location = $shell.CreateShortcut("$env:USERPROFILE\Desktop\Tools\$tool" + ".lnk");
-        $shortcut_location.TargetPath="$tool";
-        $shortcut_location.WorkingDirectory = $location;
-        $shortcut_location.WindowStyle = 1;
-        $shortcut_location.IconLocation = "$tool, 0";
-        $shortcut_location.Save();
-    };
-#>
-
-<#
-    $tools = Get-ChildItem "C:\ProgramData\chocolatey\bin" | % {$_.Name};
-    $location = "C:\ProgramData\chocolatey\bin"
-    $tools = Get-ChildItem "$env:SystemRoot\Ubuntu\ubuntu1804.exe"
-    $location = "$env:SystemRoot\Ubuntu\"
-#>
 
 main;
