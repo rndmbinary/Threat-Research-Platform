@@ -3,9 +3,14 @@
 .NAME
     stage_masbox.ps1
 .DISCRIPTION
+    Inspired by FireEye's FlareVM, this was created to support security analysts to conduct
+    static, dynamic analysis and reverse enginnering against malicious objects. 
+    Recommend using a Windows VM.
+    Use at your own risk.
 .AUTHOR
+    Tyron Howard
 .VERSION
-    2.4.2 (10.18.2019)
+    2.5 (1.29.2020)
 #>
 
 
