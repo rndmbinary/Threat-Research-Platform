@@ -10,12 +10,11 @@
 .AUTHOR
     Tyron Howard
 .VERSION
-    2.5.1 (2.5.2020)
+    2.5.5 (2.5.2020)
 #>
 
 
 function main {
-    try {
         disable_defender;
         connection_check;
         bootstrap_vm(0);
@@ -23,9 +22,6 @@ function main {
         bootstrap_vm(2);
         bootstrap_vm(3);
         stage_desktop;
-    } catch [System.SystemException] {
-        Write-Host "One of the functions did not complete execution successfully." -BackgroundColor Red;
-    };
 };
 
 function disable_defender {
