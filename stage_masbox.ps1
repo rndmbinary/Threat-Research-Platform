@@ -10,12 +10,11 @@
 .AUTHOR
     Tyron Howard
 .VERSION
-    2.5.1 (2.5.2020)
+    2.5.5 (2.5.2020)
 #>
 
 
 function main {
-    try {
         disable_defender;
         connection_check;
         bootstrap_vm(0);
@@ -23,9 +22,6 @@ function main {
         bootstrap_vm(2);
         bootstrap_vm(3);
         stage_desktop;
-    } catch [System.SystemException] {
-        Write-Host "One of the functions did not complete execution successfully." -BackgroundColor Red;
-    };
 };
 
 function disable_defender {
@@ -129,9 +125,6 @@ function install_tools($mode) {
 
         ForEach ($tool in $pip3_package) {
             iex "pip3 install $tool";
-        };
-        ForEach ($tool in $pip2_package) {
-            iex "pip2 install $tool";
         };
     } elseif ($mode -eq 3) {
         Write-Host "Installing Ubuntu. Please set a username and password when prompted" -BackgroundColor Red;
