@@ -130,9 +130,6 @@ function install_tools($mode) {
         ForEach ($tool in $pip3_package) {
             iex "pip3 install $tool";
         };
-        ForEach ($tool in $pip2_package) {
-            iex "pip2 install $tool";
-        };
     } elseif ($mode -eq 3) {
         Write-Host "Installing Ubuntu. Please set a username and password when prompted" -BackgroundColor Red;
         
