@@ -10,7 +10,7 @@
 .AUTHOR
     Tyron Howard
 .VERSION
-    2.5 (1.29.2020)
+    2.5.1 (2.5.2020)
 #>
 
 
@@ -92,12 +92,13 @@ function install_tools($mode) {
         'ida-free --version=7.07.0',
         'fiddler',
         'python3 --version=3.7.4',
-        'python2 --version=2.7.17',
+        'vscode',
         'sysinternals',
         'git',
         'exiftool',
         'vt-cli'
         'mitmproxy'
+        'chrome'
     );
     $pip3_package = @(
         'requests',
@@ -111,7 +112,6 @@ function install_tools($mode) {
         '-U https://github.com/decalage2/ViperMonkey/archive/master.zip' #ViperMonkey
     );
     $git_package = @{
-        'YarGen' = 'https://github.com/Neo23x0/yarGen.git'
         'Binwalk' = 'https://github.com/ReFirmLabs/binwalk.git'
     };
     $manual_package = @(
