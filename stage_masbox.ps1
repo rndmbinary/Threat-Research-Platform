@@ -95,6 +95,7 @@ function install_tools($mode) {
         'vt-cli'
         'mitmproxy'
         'chrome'
+        'osquery --params=/InstallService'
     );
     $pip3_package = @(
         'requests',
