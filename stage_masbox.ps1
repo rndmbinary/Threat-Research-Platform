@@ -10,7 +10,7 @@
 .AUTHOR
     Tyron Howard
 .VERSION
-    2.5.5 (2.5.2020)
+    2.6 (8.10.2020)
 #>
 
 
