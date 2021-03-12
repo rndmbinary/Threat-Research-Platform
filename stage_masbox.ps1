@@ -95,7 +95,7 @@ function install_tools($mode) {
         'yara-ci',
         # Network Watchers
         'wireshark',
-        'fiddler'
+        'fiddler',
         # Process and System Watchers
         'processhacker',
         'RegistryChangesView',
