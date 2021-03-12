@@ -40,7 +40,7 @@ function connection_check {
     $results = Test-NetConnection www.google.com -port 443 | % {$_.TcpTestSucceeded};
     if ($results -eq "True") {
         # Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux;
-        continue
+        continue;
     } else {
         break;
     };
