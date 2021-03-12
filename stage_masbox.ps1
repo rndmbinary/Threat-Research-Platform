@@ -78,6 +78,7 @@ function install_tools($mode) {
         'x64dbg.portable',
         'radare',
         'cutter',
+        'imhex'
         'hxd',
         'wireshark',
         'pebear',
