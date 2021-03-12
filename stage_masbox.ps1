@@ -10,7 +10,7 @@
 .AUTHOR
     Tyron Howard
 .VERSION
-    2.8 (3.12.2021)
+    2.8.2 (3.12.2021)
 #>
 
 
@@ -76,22 +76,29 @@ function bootstrap_vm($mode) {
 
 function install_tools($mode) {
     $choco_package = @(
+        # Coding Packages
         'git',
+        'python3 --version=3.7.4',
+        'nodejs.install',
+        'typescript',
         'vscode',
+        # Static Identification
+        'exiftool',
+        # Static Debugging and Reversing
         'imhex',
         'x64dbg.portable',
         'rizin',
         'cutter',
+        'ida-free --version=7.07.0',
+        # Static Pattern Matching
+        'yara',
+        'yara-ci',
+        # Network
         'wireshark',
         'processhacker',
-        'yara',
-        'yara-ci'
-        'nodejs.install'
-        'typescript'
-        'ida-free --version=7.07.0',
-        'python3 --version=3.7.4',
-        'exiftool',
-        'vt-cli'
+        # OSINT Tools
+        'vt-cli',
+        #OS Tools
         '7zip.install',
         'chrome'
         'powertoys',
