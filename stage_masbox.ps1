@@ -76,28 +76,26 @@ function bootstrap_vm($mode) {
 
 function install_tools($mode) {
     $choco_package = @(
-        'x64dbg.portable',
-        'radare',
-        'cutter',
-        'imhex'
-        'hxd',
-        'wireshark',
-        'pebear',
-        'processhacker',
-        'vscode',
-        '7zip.install',
-        'yara',
-        'ida-free --version=7.07.0',
-        'fiddler',
-        'python3 --version=3.7.4',
-        'vscode',
-        'sysinternals',
         'git',
+        'vscode',
+        'imhex',
+        'x64dbg.portable',
+        'rizin',
+        'cutter',
+        'wireshark',
+        'processhacker',
+        'yara',
+        'yara-ci'
+        'nodejs.install'
+        'typescript'
+        'ida-free --version=7.07.0',
+        'python3 --version=3.7.4',
         'exiftool',
         'vt-cli'
-        'mitmproxy'
+        '7zip.install',
         'chrome'
-        'osquery --params=/InstallService'
+        'powertoys',
+        'sysinternals'        
     );
     $pip3_package = @(
         'requests',
@@ -106,7 +104,7 @@ function install_tools($mode) {
         'scapy',
         'stoq-framework' #https://github.com/PUNCH-Cyber/stoq
     );
-    $pip2_package = @(
+    # $pip2_package = @(
         'pdfminer'
         '-U https://github.com/decalage2/ViperMonkey/archive/master.zip' #ViperMonkey
     );
