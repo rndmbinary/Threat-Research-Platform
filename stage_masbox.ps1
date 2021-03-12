@@ -50,7 +50,7 @@ function bootstrap_vm($mode) {
     $bootstrap_url = @(
         'https://chocolatey.org/install.ps1',
         'https://bootstrap.pypa.io/get-pip.py',
-        'https://aka.ms/wsl-ubuntu-1804'
+        # 'https://aka.ms/wsl-ubuntu-1804'
     );
     $bootstrap_clipath = @(
         'C:\ProgramData\chocolatey\bin\',
@@ -129,6 +129,12 @@ function install_tools($mode) {
         ForEach ($tool in $pip3_package) {
             iex "pip3 install $tool";
         };
+    } elseif ($mode -eq 2) {
+        ForEach ($tool in $git_package.Keys) {
+            iex 'git clone $git_package[$tool] $env:USERPROFILE\Desktop\$tool';
+        };
+    }
+    <# <--- WSL
     } elseif ($mode -eq 3) {
         Write-Host "Installing Ubuntu. Please set a username and password when prompted" -BackgroundColor Red;
         
@@ -139,12 +145,8 @@ function install_tools($mode) {
         Write-Host "Updating Ubuntu. Please use the username and password set during the initial install of Ubuntu" -BackgroundColor Red
 
         Start-Process C:\Windows\Ubuntu\ubuntu1804.exe 'run sudo apt update';
-        # Remove-Item "$env:SystemRoot\Ubuntu\Ubuntu.zip"
-    } elseif ($mode -eq 2) {
-        ForEach ($tool in $git_package.Keys) {
-            iex 'git clone $git_package[$tool] $env:USERPROFILE\Desktop\$tool';
-        };
-    };
+        Remove-Item "$env:SystemRoot\Ubuntu\Ubuntu.zip"
+    #>
 };
 
 function stage_desktop {
@@ -155,7 +157,7 @@ function stage_desktop {
     
     $tools = @{
         'Get-ChildItem C:\ProgramData\chocolatey\bin | % {$_.Name}' = 'C:\ProgramData\chocolatey\bin'
-        'Get-ChildItem $env:SystemRoot\Ubuntu\ubuntu1804.exe | % {$_.Name}' = '$env:SystemRoot\Ubuntu\'
+        # 'Get-ChildItem $env:SystemRoot\Ubuntu\ubuntu1804.exe | % {$_.Name}' = '$env:SystemRoot\Ubuntu\' <--- WSL
     };
 
     ForEach ($tool in $tools.Keys) {
