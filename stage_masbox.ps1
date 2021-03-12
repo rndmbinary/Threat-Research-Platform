@@ -93,18 +93,19 @@ function install_tools($mode) {
         # Static Pattern Matching
         'yara',
         'yara-ci',
-        # Network
+        # Network Watchers
         'wireshark',
         'fiddler'
         # Process and System Watchers
         'processhacker',
+        'RegistryChangesView',
+        'sysinternals',
         # OSINT Tools
         'vt-cli',
         # OS Tools
         '7zip.install',
         'chrome'
-        'powertoys',
-        'sysinternals'        
+        'powertoys',        
     );
     $pip3_package = @(
         'requests',
