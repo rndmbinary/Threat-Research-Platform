@@ -10,7 +10,7 @@
 .AUTHOR
     Tyron Howard
 .VERSION
-    2.6 (8.10.2020)
+    2.8 (3.12.2021)
 #>
 
 
@@ -123,7 +123,7 @@ function install_tools($mode) {
             iex "choco install -y $tool"
         };
     } elseif ($mode -eq 1) {
-        Write-Host "Installing Python 3 & 2 Modules using PIP" -BackgroundColor Red;
+        Write-Host "Installing Python 3" -BackgroundColor Red;
 
         ForEach ($tool in $pip3_package) {
             iex "pip3 install $tool";
