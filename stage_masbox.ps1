@@ -95,10 +95,12 @@ function install_tools($mode) {
         'yara-ci',
         # Network
         'wireshark',
+        'fiddler'
+        # Process and System Watchers
         'processhacker',
         # OSINT Tools
         'vt-cli',
-        #OS Tools
+        # OS Tools
         '7zip.install',
         'chrome'
         'powertoys',
