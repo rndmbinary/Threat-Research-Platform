@@ -11,6 +11,8 @@
     Tyron Howard
 .VERSION
     2.9.0 (10.02.2022)
+.QUICK_STAGING
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/rndmbinary/Threat-Research-Platform/dev/stage_win.ps1'))
 #>
 
 function main {
