@@ -21,7 +21,7 @@ function main {
         bootstrap_vm(0);
         bootstrap_vm(1);
         bootstrap_vm(2);
-        # bootstrap_vm(3);
+        bootstrap_vm(3);
         stage_desktop;
 };
 
