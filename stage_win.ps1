@@ -117,10 +117,10 @@ function install_tools($mode) {
         'scapy',
         'stoq-framework' #https://github.com/PUNCH-Cyber/stoq
     );
-    # $pip2_package = @(
+    <# $pip2_package = @(
         'pdfminer'
         '-U https://github.com/decalage2/ViperMonkey/archive/master.zip' #ViperMonkey
-    );
+    );#>
     $git_package = @{
         'Binwalk' = 'https://github.com/ReFirmLabs/binwalk.git'
     };
