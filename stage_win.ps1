@@ -10,9 +10,8 @@
 .AUTHOR
     Tyron Howard
 .VERSION
-    2.8.2 (3.12.2021)
+    2.9.0 (10.02.2022)
 #>
-
 
 function main {
         disable_defender;
@@ -20,7 +19,7 @@ function main {
         bootstrap_vm(0);
         bootstrap_vm(1);
         bootstrap_vm(2);
-        bootstrap_vm(3);
+        # bootstrap_vm(3);
         stage_desktop;
 };
 
@@ -56,7 +55,7 @@ function bootstrap_vm($mode) {
         'C:\ProgramData\chocolatey\bin\',
         'C:\Python37\Scripts\;C:\Python37\',
         'C:\Python27\Scripts\;C:\Python27\',
-        'C:\Windows\Ubuntu\'
+        # 'C:\Windows\Ubuntu\'
     );
     
     $userenv = $env:Path;
@@ -93,9 +92,6 @@ function install_tools($mode) {
         # Static Pattern Matching
         'yara',
         'yara-ci',
-        # Network Watchers
-        'wireshark',
-        'fiddler',
         # Process and System Watchers
         'processhacker',
         'RegistryChangesView',
@@ -105,7 +101,12 @@ function install_tools($mode) {
         # OS Tools
         '7zip.install',
         'chrome'
-        'powertoys',        
+        'powertoys',
+        # Network Monitoring
+        'mitmproxy',
+        'wireshark',
+        # Malware Distro
+        'theZoo'
     );
     $pip3_package = @(
         'requests',
