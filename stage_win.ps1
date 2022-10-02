@@ -150,8 +150,9 @@ function install_tools($mode) {
             iex 'git clone $git_package[$tool] $env:USERPROFILE\Desktop\$tool';
         };
     } elseif ($mode -eq 3) {
-        ForEach ($tool in $manual_package.Keys {
-            iwr $manual_package[$tool] -OutFile "$env:USERPROFILE\Desktop\$tool" -UseBasicParsing
+        ForEach ($tool in $manual_package.Keys) {
+            New-Item -Path "$env:USERPROFILE\Desktop\$tool" -ItemType "Directory";
+            iwr $manual_package[$tool] -OutFile "$env:USERPROFILE\Desktop\$tool\$tool.zip" -UseBasicParsing
         };
     };
     <# <--- WSL
