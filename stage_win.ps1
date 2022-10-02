@@ -87,11 +87,12 @@ function install_tools($mode) {
         'python3 --version=3.10.7',
         'nodejs.install',
         'typescript',
+        'powershell-core',
         'vscode',
         # Static Identification
         'exiftool',
         # Static Debugging and Reversing
-        'imhex',
+        'hxd',
         'x64dbg.portable',
         'rizin',
         'cutter',
@@ -129,8 +130,9 @@ function install_tools($mode) {
         'theZoo' = 'https://github.com/ytisf/theZoo.git'
     };
     $manual_package = @(
-        'https://www.procdot.com/download/procdot/binaries/procdot_1_22_57_windows.zip ', #ProcDot
-        'https://winitor.com/tools/pestudio/current/A9B8E0FD-AFFC-4829-BE81-8F1AB5BC496A.zip' #PeStudio
+        'ProcDot' = 'https://www.procdot.com/download/procdot/binaries/procdot_1_22_57_windows.zip'
+        'PeStudio' = 'https://www.winitor.com/tools/pestudio/current/pestudio.zip'
+        'ImHex' = 'https://github.com/WerWolv/ImHex/releases/download/v1.23.2/imhex-1.23.2-Windows-Portable-NoGPU.zip'
     );
     
     If ($mode -eq 0) {
@@ -148,7 +150,11 @@ function install_tools($mode) {
         ForEach ($tool in $git_package.Keys) {
             iex 'git clone $git_package[$tool] $env:USERPROFILE\Desktop\$tool';
         };
-    }
+    } elseif ($mode -eq 3) {
+        ForEach ($tool in $manual_package.Keys {
+            iwr $manual_package[$tool] -OutFile "$env:USERPROFILE\Desktop\$tool" -UseBasicParsing
+        };
+    };
     <# <--- WSL
     } elseif ($mode -eq 3) {
         Write-Host "Installing Ubuntu. Please set a username and password when prompted" -BackgroundColor Red;
