@@ -65,12 +65,17 @@ function bootstrap_vm($mode) {
     
     if ($mode -eq 0) {
         iwr $bootstrap_url[$mode] -UseBasicParsing | iex
+    };
+    
+    <#
     } elseif ($mode -eq 3) {
         if ((Test-Path "$env:SystemRoot\Ubuntu") -eq $false) {
             New-Item -Path "$env:SystemRoot\Ubuntu" -ItemType "Directory";
         };
         iwr -Uri $bootstrap_url[2] -OutFile "$env:SystemRoot\Ubuntu\Ubuntu.appx" -UseBasicParsing;
     };
+    #>
+    
     install_tools($mode)
     return
 };
@@ -79,7 +84,7 @@ function install_tools($mode) {
     $choco_package = @(
         # Coding Packages
         'git',
-        'python3 --version=3.7.4',
+        'python3 --version=3.10.7',
         'nodejs.install',
         'typescript',
         'vscode',
