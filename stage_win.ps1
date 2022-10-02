@@ -125,7 +125,7 @@ function install_tools($mode) {
         '-U https://github.com/decalage2/ViperMonkey/archive/master.zip' #ViperMonkey
     );#>
     $git_package = @{
-        'Binwalk' = 'https://github.com/ReFirmLabs/binwalk.git',
+        'Binwalk' = 'https://github.com/ReFirmLabs/binwalk.git'
         'theZoo' = 'https://github.com/ytisf/theZoo.git'
     };
     $manual_package = @(
