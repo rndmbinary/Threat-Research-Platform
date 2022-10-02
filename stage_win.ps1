@@ -131,7 +131,7 @@ function install_tools($mode) {
     $manual_package = @{
         'ProcDot' = 'https://www.procdot.com/download/procdot/binaries/procdot_1_22_57_windows.zip'
         'PeStudio' = 'https://www.winitor.com/tools/pestudio/current/pestudio.zip'
-        'ImHex' = 'https://github.com/WerWolv/ImHex/releases/download/v1.23.2/imhex-1.23.2-Windows-Portable-NoGPU.zip'
+        'ImHex-NoGPU' = 'https://github.com/WerWolv/ImHex/releases/download/v1.23.2/imhex-1.23.2-Windows-Portable-NoGPU.zip'
     };
     
     If ($mode -eq 0) {
