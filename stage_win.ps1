@@ -118,8 +118,7 @@ function install_tools($mode) {
         'requests',
         'oletools',
         'pdfminer.six',
-        'scapy',
-        'stoq-framework' #https://github.com/PUNCH-Cyber/stoq
+        'scapy'
     );
     <# $pip2_package = @(
         'pdfminer'
