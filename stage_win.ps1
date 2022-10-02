@@ -153,6 +153,7 @@ function install_tools($mode) {
         ForEach ($tool in $manual_package.Keys) {
             New-Item -Path "$env:USERPROFILE\Desktop\$tool" -ItemType "Directory";
             iwr $manual_package[$tool] -OutFile "$env:USERPROFILE\Desktop\$tool\$tool.zip" -UseBasicParsing
+            Expand-Archive "$env:USERPROFILE\Desktop\$tool\$tool.zip" "$env:USERPROFILE\Desktop\$tool" -ErrorAction SilentlyContinue;
         };
     };
     <# <--- WSL
