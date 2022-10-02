@@ -55,7 +55,7 @@ function bootstrap_vm($mode) {
     );
     $bootstrap_clipath = @(
         'C:\ProgramData\chocolatey\bin\',
-        'C:\Python37\Scripts\;C:\Python37\',
+        'C:\Python37\Scripts\;C:\Python37\'
         # 'C:\Python27\Scripts\;C:\Python27\',
         # 'C:\Windows\Ubuntu\'
     );
