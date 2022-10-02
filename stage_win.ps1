@@ -50,7 +50,7 @@ function connection_check {
 function bootstrap_vm($mode) {
     $bootstrap_url = @(
         'https://chocolatey.org/install.ps1',
-        'https://bootstrap.pypa.io/get-pip.py',
+        'https://bootstrap.pypa.io/get-pip.py'
         # 'https://aka.ms/wsl-ubuntu-1804'
     );
     $bootstrap_clipath = @(
