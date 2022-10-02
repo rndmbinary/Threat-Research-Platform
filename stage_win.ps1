@@ -106,9 +106,7 @@ function install_tools($mode) {
         'powertoys',
         # Network Monitoring
         'mitmproxy',
-        'wireshark',
-        # Malware Distro
-        'theZoo'
+        'wireshark'
     );
     $pip3_package = @(
         'requests',
