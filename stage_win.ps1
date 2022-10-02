@@ -158,7 +158,7 @@ function install_tools($mode) {
         Start-Process C:\Windows\Ubuntu\ubuntu1804.exe 'run sudo apt update';
         Remove-Item "$env:SystemRoot\Ubuntu\Ubuntu.zip"
     #>
-};
+}
 
 function stage_desktop {
     $shell = New-Object -ComObject ("WScript.Shell");
