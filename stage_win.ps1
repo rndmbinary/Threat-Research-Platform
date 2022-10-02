@@ -137,7 +137,7 @@ function install_tools($mode) {
         Write-Host "Installing Python 3" -BackgroundColor Red;
 
         ForEach ($tool in $pip3_package) {
-            iex "pip3 install $tool";
+            iex "pip install $tool";
         };
     } elseif ($mode -eq 2) {
         ForEach ($tool in $git_package.Keys) {
