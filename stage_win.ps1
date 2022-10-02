@@ -151,7 +151,9 @@ function install_tools($mode) {
         };
     } elseif ($mode -eq 3) {
         ForEach ($tool in $manual_package.Keys) {
-            New-Item -Path "$env:USERPROFILE\Desktop\$tool" -ItemType "Directory";
+            if ((Test-Path "$env:USERPROFILE\Desktop\$tool") -eq $false) {
+                New-Item -Path "$env:USERPROFILE\Desktop\$tool" -ItemType "Directory";
+            };
             iwr $manual_package[$tool] -OutFile "$env:USERPROFILE\Desktop\$tool\$tool.zip" -UseBasicParsing
             Expand-Archive "$env:USERPROFILE\Desktop\$tool\$tool.zip" "$env:USERPROFILE\Desktop\$tool" -ErrorAction SilentlyContinue;
         };
