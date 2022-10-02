@@ -1,7 +1,7 @@
 #Requires -RunAsAdministrator
 <#
 .NAME
-    stage_masbox.ps1
+    stage_win.ps1
 .DISCRIPTION
     Inspired by FireEye's FlareVM, this was created to support security analysts to conduct
     static, dynamic analysis and reverse enginnering against malicious objects. 
