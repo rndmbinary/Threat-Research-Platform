@@ -122,16 +122,18 @@ function install_tools($mode) {
         ForEach ($tool in $choco_package) {
             iex "choco install -y $tool"
         };
+        return
     } elseif ($mode -eq 1) {
         Write-Host "Installing Python 3" -BackgroundColor Red;
-
         ForEach ($tool in $pip3_package) {
             iex "pip install $tool";
         };
+        return
     } elseif ($mode -eq 2) {
         ForEach ($tool in $git_package.Keys) {
             iex 'git clone $git_package[$tool] $env:USERPROFILE\Desktop\$tool';
         };
+        return
     } elseif ($mode -eq 3) {
         ForEach ($tool in $archive_package.Keys) {
             if ((Test-Path "$env:USERPROFILE\Desktop\$tool") -eq $false) {
@@ -140,6 +142,7 @@ function install_tools($mode) {
             iwr $archive_package[$tool] -OutFile "$env:USERPROFILE\Desktop\$tool\$tool.zip" -UseBasicParsing
             Expand-Archive "$env:USERPROFILE\Desktop\$tool\$tool.zip" "$env:USERPROFILE\Desktop\$tool" -ErrorAction SilentlyContinue;
         };
+        return
     };
 }
 
