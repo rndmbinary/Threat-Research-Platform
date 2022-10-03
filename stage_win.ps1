@@ -74,6 +74,7 @@ function install_tools($mode) {
         'nodejs.install',
         'typescript',
         'powershell-core',
+        'golang',
         'vscode',
         # Static Identification
         'exiftool',
