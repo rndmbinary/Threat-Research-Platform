@@ -156,10 +156,10 @@ function stage_desktop {
 
     ForEach ($tool in $tool_list) {
             $shortcut_location = $shell.CreateShortcut("$env:USERPROFILE\Desktop\Tools\$tool" + ".lnk");
-            $shortcut_location.TargetPath="$x";
+            $shortcut_location.TargetPath="$tool";
             $shortcut_location.WorkingDirectory = 'C:\ProgramData\chocolatey\bin';
             $shortcut_location.WindowStyle = 1;
-            $shortcut_location.IconLocation = "$x, 0";
+            $shortcut_location.IconLocation = "$tool, 0";
             $shortcut_location.Save();
     };
 
