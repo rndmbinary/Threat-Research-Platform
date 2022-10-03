@@ -148,25 +148,22 @@ function install_tools($mode) {
 
 function stage_desktop {
     $shell = New-Object -ComObject ("WScript.Shell");
+    $tool_list = iex 'Get-ChildItem C:\ProgramData\chocolatey\bin | % {$_.Name}'
+
     if ((Test-Path "$env:USERPROFILE\Desktop\Tools") -eq $false) {
         New-Item -Path "$env:USERPROFILE\Desktop\Tools" -ItemType "Directory";
     };
-    
-    $tools = @{
-        'Get-ChildItem C:\ProgramData\chocolatey\bin | % {$_.Name}' = 'C:\ProgramData\chocolatey\bin'
-    };
 
-    ForEach ($tool in $tools.Keys) {
-        $tool_list = iex $tool
-        ForEach ($x in $tool_list) {
+    ForEach ($x in $tool_list) {
             $shortcut_location = $shell.CreateShortcut("$env:USERPROFILE\Desktop\Tools\$x" + ".lnk");
             $shortcut_location.TargetPath="$x";
-            $shortcut_location.WorkingDirectory = $tools[$tool];
+            $shortcut_location.WorkingDirectory = 'C:\ProgramData\chocolatey\bin';
             $shortcut_location.WindowStyle = 1;
             $shortcut_location.IconLocation = "$x, 0";
             $shortcut_location.Save();
-        };
     };
+
 };
+
 
 main;
