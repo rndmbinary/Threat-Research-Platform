@@ -154,8 +154,8 @@ function stage_desktop {
         New-Item -Path "$env:USERPROFILE\Desktop\Tools" -ItemType "Directory";
     };
 
-    ForEach ($x in $tool_list) {
-            $shortcut_location = $shell.CreateShortcut("$env:USERPROFILE\Desktop\Tools\$x" + ".lnk");
+    ForEach ($tool in $tool_list) {
+            $shortcut_location = $shell.CreateShortcut("$env:USERPROFILE\Desktop\Tools\$tool" + ".lnk");
             $shortcut_location.TargetPath="$x";
             $shortcut_location.WorkingDirectory = 'C:\ProgramData\chocolatey\bin';
             $shortcut_location.WindowStyle = 1;
