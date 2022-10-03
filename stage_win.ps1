@@ -38,26 +38,21 @@ function disable_defender {
 };
 
 function connection_check {
-    $results = Test-NetConnection www.google.com -port 443 | % {$_.TcpTestSucceeded};
-    if ($results -eq "True") {
-        # Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux;
-        return;
-    } else {
-        break;
+    try {
+        Test-NetConnection www.google.com -port 443 | % {$_.TcpTestSucceeded};
+    } catch {
+        Write-Output "Internet Connection Failed!\n
+        Closing staging script."
     };
 };
 
 function bootstrap_vm($mode) {
     $bootstrap_url = @(
         'https://chocolatey.org/install.ps1'
-        # 'https://bootstrap.pypa.io/get-pip.py'
-        # 'https://aka.ms/wsl-ubuntu-1804'
     );
     $bootstrap_clipath = @(
         'C:\ProgramData\chocolatey\bin\',
         'C:\Python37\Scripts\;C:\Python37\'
-        # 'C:\Python27\Scripts\;C:\Python27\',
-        # 'C:\Windows\Ubuntu\'
     );
     
     $userenv = $env:Path;
@@ -66,25 +61,16 @@ function bootstrap_vm($mode) {
     if ($mode -eq 0) {
         iwr $bootstrap_url[$mode] -UseBasicParsing | iex
     };
-    
-    <#
-    } elseif ($mode -eq 3) {
-        if ((Test-Path "$env:SystemRoot\Ubuntu") -eq $false) {
-            New-Item -Path "$env:SystemRoot\Ubuntu" -ItemType "Directory";
-        };
-        iwr -Uri $bootstrap_url[2] -OutFile "$env:SystemRoot\Ubuntu\Ubuntu.appx" -UseBasicParsing;
-    };
-    #>
-    
     install_tools($mode)
     return
 };
 
 function install_tools($mode) {
     $choco_package = @(
-        # Coding Packages
+        # Required Packages
         'git',
         'python3 --version=3.10.7',
+        # Coding Packages
         'nodejs.install',
         'typescript',
         'powershell-core',
@@ -120,15 +106,11 @@ function install_tools($mode) {
         'pdfminer.six',
         'scapy'
     );
-    <# $pip2_package = @(
-        'pdfminer'
-        '-U https://github.com/decalage2/ViperMonkey/archive/master.zip' #ViperMonkey
-    );#>
     $git_package = @{
         'Binwalk' = 'https://github.com/ReFirmLabs/binwalk.git'
         'theZoo' = 'https://github.com/ytisf/theZoo.git'
     };
-    $manual_package = @{
+    $archive_package = @{
         'ProcDot' = 'https://www.procdot.com/download/procdot/binaries/procdot_1_22_57_windows.zip'
         'PeStudio' = 'https://www.winitor.com/tools/pestudio/current/pestudio.zip'
         'ImHex-NoGPU' = 'https://github.com/WerWolv/ImHex/releases/download/v1.23.2/imhex-1.23.2-Windows-Portable-NoGPU.zip'
@@ -150,27 +132,14 @@ function install_tools($mode) {
             iex 'git clone $git_package[$tool] $env:USERPROFILE\Desktop\$tool';
         };
     } elseif ($mode -eq 3) {
-        ForEach ($tool in $manual_package.Keys) {
+        ForEach ($tool in $archive_package.Keys) {
             if ((Test-Path "$env:USERPROFILE\Desktop\$tool") -eq $false) {
                 New-Item -Path "$env:USERPROFILE\Desktop\$tool" -ItemType "Directory";
             };
-            iwr $manual_package[$tool] -OutFile "$env:USERPROFILE\Desktop\$tool\$tool.zip" -UseBasicParsing
+            iwr $archive_package[$tool] -OutFile "$env:USERPROFILE\Desktop\$tool\$tool.zip" -UseBasicParsing
             Expand-Archive "$env:USERPROFILE\Desktop\$tool\$tool.zip" "$env:USERPROFILE\Desktop\$tool" -ErrorAction SilentlyContinue;
         };
     };
-    <# <--- WSL
-    } elseif ($mode -eq 3) {
-        Write-Host "Installing Ubuntu. Please set a username and password when prompted" -BackgroundColor Red;
-        
-        Rename-Item "$env:SystemRoot\Ubuntu\Ubuntu.appx" "$env:SystemRoot\Ubuntu\Ubuntu.zip" -ErrorAction SilentlyContinue;
-        Expand-Archive "$env:SystemRoot\Ubuntu\Ubuntu.zip" "$env:SystemRoot\Ubuntu" -ErrorAction SilentlyContinue;
-        Start-Process "$env:SystemRoot\Ubuntu\ubuntu1804.exe" -NoNewWindow -Wait;
-
-        Write-Host "Updating Ubuntu. Please use the username and password set during the initial install of Ubuntu" -BackgroundColor Red
-
-        Start-Process C:\Windows\Ubuntu\ubuntu1804.exe 'run sudo apt update';
-        Remove-Item "$env:SystemRoot\Ubuntu\Ubuntu.zip"
-    #>
 }
 
 function stage_desktop {
@@ -181,7 +150,6 @@ function stage_desktop {
     
     $tools = @{
         'Get-ChildItem C:\ProgramData\chocolatey\bin | % {$_.Name}' = 'C:\ProgramData\chocolatey\bin'
-        # 'Get-ChildItem $env:SystemRoot\Ubuntu\ubuntu1804.exe | % {$_.Name}' = '$env:SystemRoot\Ubuntu\' <--- WSL
     };
 
     ForEach ($tool in $tools.Keys) {
