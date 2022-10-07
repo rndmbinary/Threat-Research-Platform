@@ -12,11 +12,10 @@ rule silent_banker : banker
         $a or $b or $c
 }
 
-rule name : version : phase
+rule name : version : tactics
 {
     meta:
-        mitre = "()"
-        description =""
+        description = ""
         strings:
             $a = {00}
         condition:
