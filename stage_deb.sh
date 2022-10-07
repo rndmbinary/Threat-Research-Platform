@@ -7,12 +7,25 @@ check_account() {
 	fi
 }
 
+check_connection() {
+    if $(ping -c google.com > /dev/null); then
+        echo "Connection Found"
+    else
+        echo "No Connection Found. Script is stopping."
+        break
+}
+
 stage_trp() {
-	# Install lots of wares
-	apt-get install -y apt-transport-https snapd neovim zsh git yara radare2 python3-pip p7zip-full less volatility tcpdump lynx host w3m libimage-exiftool-perl software-properties-common ranger whois bind9-host nodejs xpdf libemail-outlook-message-perl
-	snap install powershell --classic
+    # Install required packages
+    sudo apt-get install -y wget apt-transport-https software-properties-common snapd
+	
+    # Install lots of wares
+    sudo apt-get install -y neovim git yara python3-pip p7zip-full less volatility tcpdump lynx host w3m libimage-exiftool-perl software-properties-common ranger whois bind9-host nodejs xpdf libemail-outlook-message-perl
+    snap install powershell --classic
 	curl -L https://www.npmjs.com/install.sh | sh
 	npm install typescript
+
+    # PIP3 Packages
 	pip3 install yara r2pipe requests scapy bs4 oletools pdfminer.six shodan
 
 	# Install terminal customization
@@ -33,19 +46,15 @@ stage_trp() {
 
 	# Install open source tools
 	mkdir ~/git;
-	git clone https://github.com/ReFirmLabs/binwalk.git ~/git/binwalk
-	git clone https://github.com/mattgwwalker/msg-extractor.git ~/git/msg-extractor
-	git clone https://github.com/laramies/theHarvester.git ~/git/theHarvester
-	git clone https://github.com/pwndbg/pwndbg.git ~/git/pwndbg
-
-	# Install osquery
-	export OSQUERY_KEY=1484120AC4E9F8A1A577AEEE97A80C63C9D8B80B
-	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $OSQUERY_KEY
-	add-apt-repository 'deb [arch=amd64] https://pkg.osquery.io/deb deb main'
-	apt-get update
-	apt-get install -y osquery
+    git clone https://github.com/rizinorg/rizin;
+	git clone https://github.com/ReFirmLabs/binwalk.git ~/git/binwalk;
+	git clone https://github.com/mattgwwalker/msg-extractor.git ~/git/msg-extractor;
+	git clone https://github.com/intelowlproject/IntelOwl.git ~/git/IntelOwl;
+	git clone https://github.com/pwndbg/pwndbg.git ~/git/pwndbg;
+    git clone https://github.com/Ciphey/Ciphey.git ~/git/Ciphey;
 
 }
 
 check_account
+check_connection
 stage_trp
