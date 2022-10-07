@@ -15,7 +15,6 @@ rule silent_banker : banker
 rule name : version : phase
 {
     meta:
-        ckc = "()"
         mitre = "()"
         description =""
         strings:
