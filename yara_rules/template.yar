@@ -11,3 +11,15 @@ rule silent_banker : banker
     condition:
         $a or $b or $c
 }
+
+rule name : version : phase
+{
+    meta:
+        ckc = "()"
+        mitre = "()"
+        description =""
+        strings:
+            $a = {00}
+        condition:
+            $a
+}
